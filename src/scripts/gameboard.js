@@ -29,8 +29,17 @@ let Gameboard = () => {
   };
   // calls ship.hit() on specific POS, returns POS if ship missed
   let receiveAttack = (pos) => {
-    if (!board[pos]) return pos;
-    else {
+    if (board[pos] === "miss") return false;
+    if (
+      typeof board[pos] == "object" &&
+      board[pos].ship.tiles[board[pos].shipPos] === "hit"
+    )
+      return false;
+
+    if (!board[pos]) {
+      board[pos] = "miss";
+      return board[pos];
+    } else {
       board[pos].ship.hit(board[pos].shipPos);
       return board[pos].ship.tiles[board[pos].shipPos];
     }
@@ -40,10 +49,10 @@ let Gameboard = () => {
     return board[pos].ship.isSunk() === true ? true : false;
   };
   // returns true if all ships on the board sunk
-  let areAllSunk = () => {
+  let areAllSunk = (board) => {
     let notSunk = false;
     board.forEach((e) => {
-      if (!e) return;
+      if (!e || e === "miss") return;
       if (e.ship.isSunk() === false) notSunk = true;
     });
     return notSunk === true ? false : true;

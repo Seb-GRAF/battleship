@@ -1,0 +1,91 @@
+.board {
+  width: 300px;
+  height: 300px;
+  border-radius: 5px;
+  box-shadow: #00000025 0 10px 10px;
+  background-color: #e7e7e7;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  border: solid rgb(0, 0, 0) 1px;
+}
+.cell-p1,
+.cell-p2 {
+  //   border: solid #00000015 1px;
+  box-shadow: inset #000000 0 0 0.5px;
+}
+.cell-p1 {
+  cursor: pointer;
+  &:hover {
+    background-color: #8585851c;
+  }
+}
+.fleet {
+  background-color: #bbbdc7;
+  border: none;
+  box-shadow: none;
+}
+.miss {
+  position: relative;
+  &::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -5px;
+    border-radius: 50%;
+    background-color: #000000a9;
+  }
+  &:hover {
+    cursor: default;
+  }
+  &:active {
+    cursor: not-allowed;
+  }
+}
+.hit {
+  position: relative;
+  &::before {
+    content: "";
+    transition: 0.2s;
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    background-color: #720909;
+    transform: rotate(45deg);
+  }
+  &::after {
+    transition: 0.2s;
+    content: "";
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    background-color: #720909;
+    transform: rotate(-45deg);
+  }
+  &:active {
+    cursor: not-allowed;
+  }
+  &:hover {
+    cursor: default;
+  }
+}
+.sunk {
+  background-color: #b39898;
+  border: none;
+  cursor: default;
+  &:hover {
+    background-color: #b39898;
+  }
+  &:active {
+    cursor: not-allowed;
+  }
+}
