@@ -1,4 +1,5 @@
 import { initGame } from "./game";
+import { shipDrag } from "./drag-and-drop";
 
 function renderBoards(p1, p2) {
   for (let i = 0; i < 10; i++) {
@@ -20,7 +21,6 @@ function renderBoards(p1, p2) {
       });
     });
   }
-
   for (let i = 0; i < 10; i++) {
     let row = document.createElement("div");
     row.classList.add("row-p2");
@@ -35,15 +35,17 @@ function renderBoards(p1, p2) {
     });
   }
 }
-
 function resetBoards() {
-  document.querySelectorAll(".board").forEach((board) => {
-    board.innerHTML = "";
-  });
-  initGame();
+  document.querySelector(".ships").innerHTML = "";
+  document
+    .querySelectorAll(".board")
+    .forEach((board) => (board.innerHTML = ""));
+  document.getElementById(
+    "board1"
+  ).innerHTML = `<button class="main-start">Start</button>`;
 }
 //renders p1 fleet on board
-function renderPlayerFleet(p1) {
+function renderPlayerFleet(player) {
   document.querySelectorAll(".cell-p2").forEach((e, i) => {
     let pos1, pos2;
     let pos = "" + i;
@@ -58,8 +60,8 @@ function renderPlayerFleet(p1) {
       pos2 = pos[1];
     }
 
-    if (!p1.board.board[pos1][pos2]) return;
-    if (p1.board.board[pos1][pos2] === "res") e.classList.add("res");
+    if (!player.board.board[pos1][pos2]) return;
+    if (player.board.board[pos1][pos2] === "res") e.classList.add("res");
     else e.classList.add("fleet");
   });
 }
@@ -130,4 +132,36 @@ function delay(delayInMs) {
   });
 }
 
-export { renderBoards, resetBoards, renderPlayerFleet };
+function createDragAndDropFleet(player) {
+  renderShipSelection(1, 1);
+  renderShipSelection(2, 2);
+  renderShipSelection(3, 3);
+  renderShipSelection(4, 4);
+
+  function renderShipSelection(i, length) {
+    const container = document.querySelector(".ships");
+    const shipContainer = document.createElement("div");
+    shipContainer.classList.add("ship-container");
+    container.appendChild(shipContainer);
+
+    const shipInfo = document.createElement("span");
+    shipInfo.classList.add(`info-${i}`);
+    shipInfo.textContent = "2x";
+    shipContainer.appendChild(shipInfo);
+
+    const ship = document.createElement("div");
+    ship.classList.add("ship");
+    ship.classList.add(`ship-${i}`);
+    ship.setAttribute("draggable", "true");
+    shipContainer.appendChild(ship);
+
+    for (let i = 0; i < length; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("ship-cell");
+      ship.appendChild(cell);
+    }
+  }
+
+  for (let i = 1; i < 5; i++) shipDrag(player, `.ship-${i}`);
+}
+export { renderBoards, resetBoards, renderPlayerFleet, createDragAndDropFleet };

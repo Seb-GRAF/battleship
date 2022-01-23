@@ -3,13 +3,30 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #ffffff;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  gap: 1rem;
 }
 .content {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 5rem;
 }
-
+.container1,
+.container2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  h3 {
+    margin: 0;
+  }
+}
 .win-screen {
   display: none;
   position: fixed;

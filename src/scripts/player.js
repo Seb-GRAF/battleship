@@ -36,7 +36,7 @@ const Player = (n) => {
       if (board.placeShip(pos1, pos2, length, dir) == false) return false;
     }
   };
-  //creates a random fleet of 7 ships
+  //creates a random fleet of 8 ships
   let randomFleet = () => {
     // create 2 ships of length 1
     for (let i = 0; i < 2; ) {
@@ -54,7 +54,7 @@ const Player = (n) => {
       i++;
     }
     // create 1 ship of length 4
-    for (let i = 0; i < 1; ) {
+    for (let i = 0; i < 2; ) {
       if (randomShip(4) == false) continue;
       i++;
     }

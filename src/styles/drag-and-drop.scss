@@ -1,0 +1,59 @@
+.ships {
+  height: 10rem;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.ship-container {
+  position: absolute;
+  background-color: white;
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+}
+.ship {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  border: solid 2px #0065d8;
+  &:active {
+    cursor: grabbing;
+  }
+}
+.rotated {
+  transition: 0.2s ease-in-out;
+  flex-direction: column;
+}
+
+.ship-cell {
+  background-color: #f0f5ffa8;
+  width: 1.9em;
+  height: 1.9em;
+  border-left: 1px solid #0065d8;
+  border-top: 1px solid #0065d8;
+  margin-left: -1px;
+  margin-top: -1px;
+  transition: 0.1s;
+  &:hover {
+    background-color: #c8dbff;
+  }
+  &:active {
+    background-color: #c8dbff;
+  }
+}
+.not-available {
+  background-color: rgba(255, 0, 0, 0.055);
+}
+.drag-hover {
+  position: relative;
+  //   background-color: #c8dbff;
+  cursor: crosshair;
+  background-color: #0065d842;
+}
