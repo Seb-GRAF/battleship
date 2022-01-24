@@ -12,19 +12,46 @@ body {
   gap: 1rem;
 }
 header {
-  background: #ececec;
   width: 100%;
   min-height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  h1 {
+  margin-bottom: 3rem;
+  h2 {
     margin: 0 1rem;
+    color: white;
+    cursor: pointer;
+    z-index: 5;
   }
   .menu {
     display: flex;
     gap: 1rem;
     margin: 0 1rem;
+    z-index: 5;
+    span {
+      cursor: pointer;
+    }
+  }
+  .header-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+
+  .header-svg svg {
+    position: relative;
+    display: block;
+    width: calc(217% + 1.3px);
+    height: 235px;
+  }
+
+  .header-svg .shape-fill {
+    fill: #005dc7;
   }
 }
 .content {
@@ -40,16 +67,22 @@ header {
   align-items: center;
   gap: 1rem;
   h3 {
+    cursor: default;
     margin: 0;
   }
 }
 footer {
-  height: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   a {
     text-decoration: none;
     color: black;
+    font-weight: 600;
+    transition: transform 100ms ease-in-out;
     &:hover {
-      color: blue;
+      transform: translateY(-3px);
     }
   }
 }

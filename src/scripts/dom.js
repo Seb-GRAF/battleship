@@ -1,6 +1,6 @@
 import { initGame, p1, p2 } from "./game";
 import { shipDrag } from "./drag-and-drop";
-import { aiPlay } from "./botAI";
+import { aiPlay, wasHit } from "./botAI";
 
 // let isStartAllowed = false;
 function renderBoards(p1, p2) {
@@ -112,10 +112,11 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
       p2.board.board[pos1][pos2].ship.domTargets.forEach((e) =>
         e.classList.add("sunk")
       );
+    return;
   }
   p2.isTurn(p1); // sets turn to P2
 
-  await delay(500); //delay of 500ms for better ux
+  await delay(Math.floor(Math.random() * 1000)); //delay of 500ms for better ux
 
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
@@ -123,12 +124,14 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
     : aiPlay(p1, p2);
 }
 // renders attack for p2 (AI)
-function renderAttackP2(p1, p2, pos1, pos2) {
+async function renderAttackP2(p1, p2, pos1, pos2) {
   let e = document.getElementById(`p2-row${pos1}-cell${pos2}`);
   let attack = p2.attack(p1, pos1, pos2);
 
   if (!attack) aiPlay(p1, p2);
   if (attack === "miss") {
+    wasHit.set(true);
+    console.log(wasHit.get());
     e.classList.add("miss");
   }
   if (attack === "hit") {
@@ -139,6 +142,8 @@ function renderAttackP2(p1, p2, pos1, pos2) {
       p1.board.board[pos1][pos2].ship.domTargets.forEach((e) =>
         e.classList.add("sunk")
       );
+    await delay(1000);
+    return aiPlay(p1, p2);
   }
   p1.isTurn(p2); // gives turn to P1
 }
@@ -203,4 +208,5 @@ export {
   renderPlayerFleet,
   createDragAndDropFleet,
   renderButtons,
+  renderAttackP2,
 };
