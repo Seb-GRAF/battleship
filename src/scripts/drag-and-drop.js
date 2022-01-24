@@ -68,6 +68,8 @@ function shipDrag(player, shipName) {
     //removes ship div after 2 have been placed
     amountLeft -= 1;
     totalAmountShips++;
+    if (totalAmountShips === 8) player.board.isStartAllowed.set(true);
+    console.log(player.board.isStartAllowed.get());
     ship.parentNode.firstChild.textContent = amountLeft + "x";
     if (amountLeft === 0) ship.parentNode.style.display = "none";
   });

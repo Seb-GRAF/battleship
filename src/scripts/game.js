@@ -5,43 +5,19 @@ import {
   resetBoards,
   renderPlayerFleet,
   createDragAndDropFleet,
+  renderButtons,
 } from "./dom";
 
+let p1, p2; //needed p1 and p2 to be exported for button listeners
+
 function initGame() {
-  let areShipsRandom = false;
-  let p1 = Player("Player1");
-  let p2 = Player("Player2");
-  p1.isTurn(p2); // gives turn to P1
-  //   p1.randomFleet();
-  p2.randomFleet();
+  p1 = Player("Player1");
+  p2 = Player("Player2");
+  p1.isTurn(p2); // sets turn to p1
+  p2.randomFleet(); // random fleet for p2
 
+  renderButtons(p1); // renders "start" "random" and "reset" btns
   renderBoards(p1, p2);
-  renderPlayerFleet(p1);
-
-  document.querySelector(".main-reset").addEventListener("click", () => {
-    resetBoards();
-    p1 = Player("Player1");
-    renderBoards(p1, p2);
-    createDragAndDropFleet(p1);
-  });
-  document.querySelector(".main-random").addEventListener("click", () => {
-    resetBoards();
-    p1 = Player("Player1");
-    renderBoards(p1, p2);
-    p1.randomFleet();
-    renderPlayerFleet(p1);
-    areShipsRandom = true;
-    console.log(areShipsRandom);
-  });
-  document.querySelector(".main-start").addEventListener("click", (e) => {
-    console.log(areShipsRandom);
-    if (totalAmountShips !== 8 && areShipsRandom !== true) return;
-    const board = document.getElementById("board1");
-    board.classList.toggle("started");
-    board.removeChild(e.target);
-  });
-
-  //creates drag and drop fleet
   createDragAndDropFleet(p1);
 }
-export { initGame };
+export { initGame, p1, p2 };

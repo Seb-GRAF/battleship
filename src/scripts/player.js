@@ -58,6 +58,7 @@ const Player = (n) => {
       if (randomShip(4) == false) continue;
       i++;
     }
+    board.isStartAllowed.set(true);
   };
 
   return {

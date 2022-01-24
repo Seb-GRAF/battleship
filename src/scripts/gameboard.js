@@ -1,6 +1,7 @@
 import { Ship } from "./ship";
 
 let Gameboard = () => {
+  let isStartAllowed = false;
   let board = [];
   //initialize a board (which would be displayed as 10x10)
   let init = (() => {
@@ -94,7 +95,21 @@ let Gameboard = () => {
       });
     return notSunk === true ? false : true;
   };
-  return { board, placeShip, receiveAttack, isSunk, areAllSunk };
+  return {
+    board,
+    placeShip,
+    receiveAttack,
+    isSunk,
+    areAllSunk,
+    isStartAllowed: {
+      get: function () {
+        return isStartAllowed;
+      },
+      set: function (value) {
+        isStartAllowed = value;
+      },
+    },
+  };
 };
 
 export { Gameboard };

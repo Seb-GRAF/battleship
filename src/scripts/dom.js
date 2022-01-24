@@ -1,6 +1,8 @@
-import { initGame } from "./game";
+import { initGame, p1, p2 } from "./game";
 import { shipDrag } from "./drag-and-drop";
+import { aiPlay } from "./botAI";
 
+// let isStartAllowed = false;
 function renderBoards(p1, p2) {
   for (let i = 0; i < 10; i++) {
     let row = document.createElement("div");
@@ -16,7 +18,7 @@ function renderBoards(p1, p2) {
 
       // event listener for p1 clicks on p2 board
       cell.addEventListener("click", (e) => {
-        if (!p1.turn.get()) return;
+        if (!p1.turn.get() || !p1.board.isStartAllowed.get()) return;
         renderAttackP1(e, i, j, p1, p2);
       });
     });
@@ -35,14 +37,45 @@ function renderBoards(p1, p2) {
     });
   }
 }
+//resets the boards
 function resetBoards() {
+  document.querySelector(".board-buttons").innerHTML = "";
   document.querySelector(".ships").innerHTML = "";
   document
     .querySelectorAll(".board")
     .forEach((board) => (board.innerHTML = ""));
-  document.getElementById(
-    "board1"
-  ).innerHTML = `<button class="main-start">Start</button>`;
+  initGame();
+}
+//render buttons and add event listeners
+function renderButtons(player) {
+  const boardButtons = document.querySelector(".board-buttons");
+  const board = document.getElementById("board1");
+
+  boardButtons.innerHTML = `
+    <button class="main-random">Random board</button>
+    <button class="main-reset">Reset board</button>
+ `;
+
+  document.querySelector(".main-reset").addEventListener("click", () => {
+    resetBoards(player);
+    board.classList.remove("started");
+  });
+
+  document.querySelector(".main-random").addEventListener("click", () => {
+    resetBoards();
+    p1.randomFleet();
+    renderPlayerFleet(p1);
+    p1.board.isStartAllowed.set(true);
+    document.querySelector(".ships").innerHTML = "";
+  });
+
+  board.innerHTML += `<button class="main-start">Start</button>`;
+  document.querySelector(".main-start").addEventListener("click", (e) => {
+    if (player.board.isStartAllowed.get() === false) return;
+    board.classList.toggle("started");
+    board.removeChild(e.target);
+    boardButtons.removeChild(document.querySelector(".main-random"));
+  });
 }
 //renders p1 fleet on board
 function renderPlayerFleet(player) {
@@ -87,22 +120,21 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
     ? renderWin(p1)
-    : renderAttackP2(p1, p2);
+    : aiPlay(p1, p2);
 }
 // renders attack for p2 (AI)
-function renderAttackP2(p1, p2) {
-  let pos = p2.randomPos();
-  let pos1 = pos[0];
-  let pos2 = pos[1];
+function renderAttackP2(p1, p2, pos1, pos2) {
   let e = document.getElementById(`p2-row${pos1}-cell${pos2}`);
   let attack = p2.attack(p1, pos1, pos2);
 
-  if (!attack) renderAttackP2(p1, p2);
-  if (attack === "miss") e.classList.add("miss");
+  if (!attack) aiPlay(p1, p2);
+  if (attack === "miss") {
+    e.classList.add("miss");
+  }
   if (attack === "hit") {
     e.classList.add("hit");
     p1.board.board[pos1][pos2].ship.domTargets.push(e);
-
+    // if ship is sunk, add "sunk" class
     if (p1.board.board[pos1][pos2].ship.isSunk())
       p1.board.board[pos1][pos2].ship.domTargets.forEach((e) =>
         e.classList.add("sunk")
@@ -131,7 +163,7 @@ function delay(delayInMs) {
     }, delayInMs);
   });
 }
-
+// renders the draggable ships under the board
 function createDragAndDropFleet(player) {
   renderShipSelection(1, 1);
   renderShipSelection(2, 2);
@@ -164,4 +196,11 @@ function createDragAndDropFleet(player) {
 
   for (let i = 1; i < 5; i++) shipDrag(player, `.ship-${i}`);
 }
-export { renderBoards, resetBoards, renderPlayerFleet, createDragAndDropFleet };
+
+export {
+  renderBoards,
+  resetBoards,
+  renderPlayerFleet,
+  createDragAndDropFleet,
+  renderButtons,
+};

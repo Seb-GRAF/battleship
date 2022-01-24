@@ -5,11 +5,27 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 100vh;
   width: 100vw;
   gap: 1rem;
+}
+header {
+  background: #ececec;
+  width: 100%;
+  min-height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    margin: 0 1rem;
+  }
+  .menu {
+    display: flex;
+    gap: 1rem;
+    margin: 0 1rem;
+  }
 }
 .content {
   display: flex;
@@ -25,6 +41,16 @@ body {
   gap: 1rem;
   h3 {
     margin: 0;
+  }
+}
+footer {
+  height: 2rem;
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: blue;
+    }
   }
 }
 .win-screen {

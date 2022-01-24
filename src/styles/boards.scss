@@ -29,12 +29,17 @@
 }
 #board1::before {
   // display: none;
-  content: "";
+  content: "Place your ships before starting.";
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 27.5;
+  color: #0065d8;
+  text-shadow: rgb(255, 255, 255) 0px 0 5px;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: -5px;
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
   backdrop-filter: blur(2px);
   z-index: 7;
 }
@@ -51,7 +56,7 @@
 .res {
   z-index: 0;
   position: relative;
-  transition: 200ms ease;
+  // transition: 200ms ease;
   &::after {
     content: "";
     position: absolute;
