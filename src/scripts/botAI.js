@@ -1,24 +1,27 @@
 import { renderAttackP2 } from "./dom";
 
-let wasHit = (() => {
-  let hit = false;
-  function set(value) {
-    hit = value;
-  }
-  function get() {
-    return hit;
-  }
-  return { get, set };
-})();
-
-let firstHitPos = -1;
-let lastHitPos;
+let wasHit = false;
+let lastHitPos = [];
+function setWasHit(value, pos1, pos2) {
+  wasHit = value;
+  lastHitPos = [pos1, pos2];
+}
+function getWasHit() {
+  return [wasHit, lastHitPos];
+}
+function registerSurroundingTiles(pos1, pos2) {}
 
 function aiPlay(p1, p2) {
-  let pos1, pos2;
-  let pos = p1.randomPos();
-  pos1 = pos[0];
-  pos2 = pos[1];
+  let pos, pos1, pos2;
+  if (!wasHit) {
+    pos = p1.randomPos();
+    pos1 = pos[0];
+    pos2 = pos[1];
+  } else {
+    pos1 = lastHitPos[0];
+    if (lastHitPos[1] !== 0) pos2 = lastHitPos[1] - 1;
+    else pos2 = lastHitPos[1] + 1;
+  }
 
   renderAttackP2(p1, p2, pos1, pos2);
 }
@@ -29,4 +32,4 @@ function attackTowards(dir) {
   if (dir === "up") return [lastHitPos[0] - 1, lastHitPos[1]];
 }
 
-export { aiPlay, wasHit };
+export { aiPlay, getWasHit, setWasHit };

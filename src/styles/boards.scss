@@ -5,7 +5,7 @@
   background-color: #ffffff;
   display: grid;
   grid-template-rows: repeat(10, 1fr);
-  border: solid #0065d8 1px;
+  border: solid #273547e7 1px;
   .main-start {
     cursor: pointer;
     z-index: 10;
@@ -27,9 +27,12 @@
     }
   }
 }
-#board1::before {
-  // display: none;
-  content: "Place your ships before starting.";
+#board1::before,
+#board2::before {
+  transition: 1000ms;
+
+  display: block;
+  content: "";
   font-size: 0.9rem;
   text-align: center;
   line-height: 27.5;
@@ -40,10 +43,11 @@
   bottom: -5px;
   left: -5px;
   right: -5px;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(1px);
   z-index: 7;
 }
-#board1.started::before {
+#board1.current-turn::before,
+#board2.current-turn::before {
   display: none;
 }
 .row-p1,

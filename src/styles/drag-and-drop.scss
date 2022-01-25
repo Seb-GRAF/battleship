@@ -19,6 +19,7 @@
   span {
     cursor: default;
     justify-self: flex-start;
+    color: #273547e7;
   }
 }
 .ship {
@@ -54,11 +55,5 @@
   }
 }
 .not-available {
-  background-color: rgba(255, 0, 0, 0.055);
-}
-.drag-hover {
-  position: relative;
-  //   background-color: #c8dbff;
-  cursor: crosshair;
-  background-color: #0065d842;
+  background-color: #ff004c17;
 }

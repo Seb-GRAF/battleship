@@ -20,7 +20,7 @@ header {
   margin-bottom: 3rem;
   h2 {
     margin: 0 1rem;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
     z-index: 5;
   }
@@ -30,6 +30,7 @@ header {
     margin: 0 1rem;
     z-index: 5;
     span {
+      color: 273547e7;
       cursor: pointer;
     }
   }
@@ -51,7 +52,7 @@ header {
   }
 
   .header-svg .shape-fill {
-    fill: #0065d8;
+    fill: #273547e7;
   }
 }
 .content {
@@ -67,6 +68,7 @@ header {
   align-items: center;
   gap: 1rem;
   h3 {
+    color: #273547e7;
     cursor: default;
     margin: 0;
   }

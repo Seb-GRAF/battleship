@@ -1,6 +1,6 @@
 import { initGame, p1, p2 } from "./game";
 import { shipDrag } from "./drag-and-drop";
-import { aiPlay, wasHit } from "./botAI";
+import { aiPlay, getWasHit, setWasHit } from "./botAI";
 
 // let isStartAllowed = false;
 function renderBoards(p1, p2) {
@@ -49,7 +49,8 @@ function resetBoards() {
 //render buttons and add event listeners
 function renderButtons(player) {
   const boardButtons = document.querySelector(".board-buttons");
-  const board = document.getElementById("board1");
+  const board1 = document.getElementById("board1");
+  const board2 = document.getElementById("board2");
 
   boardButtons.innerHTML = `
     <button class="main-random">Random board</button>
@@ -57,10 +58,17 @@ function renderButtons(player) {
  `;
 
   document.querySelector(".main-reset").addEventListener("click", () => {
+    //prevents bug when reset during enemy's turn
+    if (!player.turn.get()) return;
+
+    //resets boards and sets blur
     resetBoards(player);
-    board.classList.remove("started");
+    board1.classList.remove("current-turn");
+    if (player.turn.get() && player.board.hasStarted.get())
+      board2.classList.add("current-turn");
   });
 
+  // creates a random fleet for p1
   document.querySelector(".main-random").addEventListener("click", () => {
     resetBoards();
     p1.randomFleet();
@@ -69,11 +77,18 @@ function renderButtons(player) {
     document.querySelector(".ships").innerHTML = "";
   });
 
-  board.innerHTML += `<button class="main-start">Start</button>`;
+  board1.innerHTML += `<button class="main-start">Start</button>`;
   document.querySelector(".main-start").addEventListener("click", (e) => {
+    // prevent starting when not all ships are placed on the board
     if (player.board.isStartAllowed.get() === false) return;
-    board.classList.toggle("started");
-    board.removeChild(e.target);
+
+    //blur toggles before and after start
+    board1.classList.toggle("current-turn");
+    board2.classList.toggle("current-turn");
+    player.board.hasStarted.set(true);
+
+    //removes start button when game starts
+    board1.removeChild(e.target);
     boardButtons.removeChild(document.querySelector(".main-random"));
   });
 }
@@ -114,9 +129,13 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
       );
     return;
   }
+  // await delay(300);
   p2.isTurn(p1); // sets turn to P2
 
-  await delay(Math.floor(Math.random() * 1000)); //delay of 500ms for better ux
+  //toggles blur for turns
+  document.getElementById("board2").classList.toggle("current-turn");
+  document.getElementById("board1").classList.toggle("current-turn");
+  // await delay(700); //delay of 500ms for better ux
 
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
@@ -130,21 +149,29 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
 
   if (!attack) aiPlay(p1, p2);
   if (attack === "miss") {
-    wasHit.set(true);
-    console.log(wasHit.get());
+    setWasHit(false);
     e.classList.add("miss");
   }
   if (attack === "hit") {
+    setWasHit(true, pos1, pos2);
     e.classList.add("hit");
     p1.board.board[pos1][pos2].ship.domTargets.push(e);
     // if ship is sunk, add "sunk" class
-    if (p1.board.board[pos1][pos2].ship.isSunk())
+    if (p1.board.board[pos1][pos2].ship.isSunk()) {
       p1.board.board[pos1][pos2].ship.domTargets.forEach((e) =>
         e.classList.add("sunk")
       );
-    await delay(1000);
+      setWasHit(false);
+    }
+    // await delay(1000);
+    console.log(pos1, pos2);
     return aiPlay(p1, p2);
   }
+
+  // await delay(400);
+  document.getElementById("board2").classList.toggle("current-turn");
+  document.getElementById("board1").classList.toggle("current-turn");
+
   p1.isTurn(p2); // gives turn to P1
 }
 // render win screen

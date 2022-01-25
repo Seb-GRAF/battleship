@@ -2,6 +2,7 @@ import { Ship } from "./ship";
 
 let Gameboard = () => {
   let isStartAllowed = false;
+  let hasStarted = false;
   let board = [];
   //initialize a board (which would be displayed as 10x10)
   let init = (() => {
@@ -107,6 +108,14 @@ let Gameboard = () => {
       },
       set: function (value) {
         isStartAllowed = value;
+      },
+    },
+    hasStarted: {
+      get: function () {
+        return hasStarted;
+      },
+      set: function (value) {
+        hasStarted = value;
       },
     },
   };
