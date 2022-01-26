@@ -6,26 +6,6 @@
   display: grid;
   grid-template-rows: repeat(10, 1fr);
   border: solid #273547e7 1px;
-  .main-start {
-    cursor: pointer;
-    z-index: 10;
-    font-size: 1.5rem;
-    color: white;
-    position: absolute;
-    align-self: center;
-    justify-self: center;
-    padding: 0.5rem 1.5rem;
-    background-color: #0065d8;
-    border: none;
-    border-radius: 2rem;
-    box-shadow: #00000056 0 0 10px;
-    &:hover {
-      background-color: #268bff;
-    }
-    &:active {
-      background-color: #4a9fff;
-    }
-  }
 }
 #board1::before,
 #board2::before {
@@ -195,19 +175,42 @@
     cursor: not-allowed;
   }
 }
+.board-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
 .main-reset,
-.main-random {
-  cursor: pointer;
+.main-random,
+.main-start {
+  width: 7rem;
+  transition: 100ms;
   color: white;
   font-size: 0.8rem;
   padding: 0.3rem 0.6rem;
   background: #0065d8;
   border: none;
   border-radius: 1rem;
+  box-shadow: #00000033 0 2px 2px;
   &:hover {
     background-color: #1d75da;
+    box-shadow: #00000033 0 3px 3px;
+    transform: scale(1.05);
   }
   &:active {
     background-color: #307ed8;
+    box-shadow: #00000033 0 2px 2px;
+    transform: none;
   }
+}
+.main-start {
+  z-index: 7;
+  font-size: 1.5rem;
+  position: absolute;
+  align-self: center;
+  justify-self: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  // box-shadow: #00000056 0 0 10px;
 }

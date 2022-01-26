@@ -18,6 +18,7 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
+  z-index: 10;
   h2 {
     margin: 0 1rem;
     color: #ffffff;
@@ -86,27 +87,5 @@ footer {
     &:hover {
       transform: translateY(-3px);
     }
-  }
-}
-.win-screen {
-  display: none;
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  background-color: #0000001a;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  backdrop-filter: blur(3px);
-  h1 {
-    font-weight: 600;
-    text-shadow: rgba(0, 0, 0, 0.205) 0 5px 5px;
-  }
-  button {
-    font-size: 2em;
-    padding: 0.5em 1em;
-    border-radius: 10px;
-    border-style: none;
-    box-shadow: rgba(0, 0, 0, 0.171) 0 5px 5px;
   }
 }

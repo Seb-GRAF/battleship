@@ -1,6 +1,6 @@
 import { initGame, p1, p2 } from "./game";
 import { shipDrag } from "./drag-and-drop";
-import { aiPlay, getWasHit, setWasHit } from "./botAI";
+import { aiPlay, getWasHit, setWasHit, surroundingPos } from "./botAI";
 
 // let isStartAllowed = false;
 function renderBoards(p1, p2) {
@@ -84,7 +84,7 @@ function renderButtons(player) {
 
     //blur toggles before and after start
     board1.classList.toggle("current-turn");
-    board2.classList.toggle("current-turn");
+    // board2.classList.toggle("current-turn");
     player.board.hasStarted.set(true);
 
     //removes start button when game starts
@@ -133,9 +133,9 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
   p2.isTurn(p1); // sets turn to P2
 
   //toggles blur for turns
-  document.getElementById("board2").classList.toggle("current-turn");
-  document.getElementById("board1").classList.toggle("current-turn");
-  // await delay(700); //delay of 500ms for better ux
+  // document.getElementById("board2").classList.toggle("current-turn");
+  // document.getElementById("board1").classList.toggle("current-turn");
+  // await delay(700);
 
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
@@ -144,16 +144,20 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
 }
 // renders attack for p2 (AI)
 async function renderAttackP2(p1, p2, pos1, pos2) {
+  return renderWin(p2);
+  let isSunk = false;
   let e = document.getElementById(`p2-row${pos1}-cell${pos2}`);
   let attack = p2.attack(p1, pos1, pos2);
 
   if (!attack) aiPlay(p1, p2);
   if (attack === "miss") {
-    setWasHit(false);
+    if (surroundingPos.length == 0 && getWasHit[3] == false) {
+      setWasHit(false);
+    }
     e.classList.add("miss");
   }
   if (attack === "hit") {
-    setWasHit(true, pos1, pos2);
+    setWasHit(true, pos1, pos2, true);
     e.classList.add("hit");
     p1.board.board[pos1][pos2].ship.domTargets.push(e);
     // if ship is sunk, add "sunk" class
@@ -161,32 +165,39 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
       p1.board.board[pos1][pos2].ship.domTargets.forEach((e) =>
         e.classList.add("sunk")
       );
-      setWasHit(false);
+      isSunk = true;
+      if (p1.board.areAllSunk(p1.board.board) === true) return renderWin(p2);
     }
     // await delay(1000);
-    console.log(pos1, pos2);
-    return aiPlay(p1, p2);
+    return aiPlay(p1, p2, isSunk);
   }
 
   // await delay(400);
-  document.getElementById("board2").classList.toggle("current-turn");
-  document.getElementById("board1").classList.toggle("current-turn");
+  // document.getElementById("board2").classList.toggle("current-turn");
+  // document.getElementById("board1").classList.toggle("current-turn");
 
   p1.isTurn(p2); // gives turn to P1
 }
 // render win screen
 function renderWin(player) {
-  let winScreen = document.querySelector(".win-screen");
-  let winText = document.querySelector(".win-text");
-  let restartBtn = document.querySelector(".restart");
+  const winScreen = document.querySelector(".win-screen");
+  const winText = document.querySelector(".win-text");
+  const restartBtn = document.querySelector(".restart");
+  const board1 = document.getElementById("board1");
+  const board2 = document.getElementById("board2");
 
   winScreen.style.display = "flex";
   winText.textContent = player.name + " won the game!";
   restartBtn.addEventListener("click", () => {
     winScreen.style.display = "none";
     resetBoards();
+    board1.classList.remove("current-turn");
+    if (player.turn.get() && player.board.hasStarted.get())
+      board2.classList.add("current-turn");
   });
 }
+// renders how to play screen
+function renderHowToPlay() {}
 // creates a delay to be used in an async function
 function delay(delayInMs) {
   return new Promise((resolve) => {
