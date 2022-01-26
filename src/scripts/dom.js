@@ -129,7 +129,7 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
       );
     return;
   }
-  // await delay(300);
+  await delay(300);
   p2.isTurn(p1); // sets turn to P2
 
   //toggles blur for turns
@@ -167,11 +167,11 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
       isSunk = true;
       if (p1.board.areAllSunk(p1.board.board) === true) return renderWin(p2);
     }
-    // await delay(1000);
+    await delay(1000);
     return aiPlay(p1, p2, isSunk);
   }
 
-  // await delay(400);
+  await delay(400);
   // document.getElementById("board2").classList.toggle("current-turn");
   // document.getElementById("board1").classList.toggle("current-turn");
 
