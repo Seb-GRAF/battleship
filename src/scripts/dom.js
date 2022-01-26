@@ -144,7 +144,6 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
 }
 // renders attack for p2 (AI)
 async function renderAttackP2(p1, p2, pos1, pos2) {
-  return renderWin(p2);
   let isSunk = false;
   let e = document.getElementById(`p2-row${pos1}-cell${pos2}`);
   let attack = p2.attack(p1, pos1, pos2);
