@@ -11,25 +11,11 @@
     <header>
       <h2>Battleship</h2>
       <div class="menu">
-        <span>Home</span>
-        <span>How to play</span>
-        <span>About</span>
-      </div>
-      <div class="header-svg">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M602.45,3.86h0S572.9,116.24,281.94,120H923C632,116.24,602.45,3.86,602.45,3.86Z"
-            class="shape-fill"
-          ></path>
-        </svg>
+        <span class="home-btn header-btn">Home</span>
+        <span class="how-to-play-btn header-btn">How to play</span>
       </div>
     </header>
-    <div class="content">
+    <section class="content active">
       <div class="container1">
         <h3>Enemy's board</h3>
         <div class="board" id="board1"></div>
@@ -40,44 +26,54 @@
         <div class="board-buttons"></div>
         <div class="ships"></div>
       </div>
-    </div>
-    <footer>
-      <!-- <a href="http://github.com/MorePog">@MorePog</a> -->
-    </footer>
+    </section>
     <div class="win-screen">
       <div class="win-container">
         <h1 class="win-text"></h1>
         <button class="restart">Restart</button>
       </div>
     </div>
-    <div class="how-to-play">
+    <section class="how-to-play">
       <h1>How to play Battleship</h1>
       <div class="how-to-play-container1">
         <div class="rules">
-          <h3>Rules:</h3>
+          <h2>Rules</h2>
           <p>
-            The object of Battleship is to try and sink all of the other
-            player's before they sink all of your ships. All of the other
-            player's ships are somewhere on his/her board. You try and hit them
-            by calling out the coordinates of one of the squares on the board.
-            The other player also tries to hit your ships by calling out
-            coordinates. Neither you nor the other player can see the other's
-            board so you must try to guess where they are. Each board in the
-            physical game has two grids: the lower (horizontal) section for the
-            player's ships and the upper part (vertical during play) for
-            recording the player's guesses.
+            The objective of Battleship is to try and sink all of the opponent's
+            ships before they sink all of yours. Players take turns firing shots
+            to attempt to hit the enemy ships.
           </p>
+          <p>
+            Both players can not see the fleet of the other, you have to guess
+            where is the ideal position to shoot at!
+          </p>
+          <p>
+            When a player hits a tile that holds a ship, they can replay until
+            they miss a shot.
+          </p>
+          <p>First player to sink all the opponent's ships wins the game!</p>
         </div>
         <div class="controls">
-          <h3>Controls:</h3>
+          <h2>Controls</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex nemo
-            iusto esse sapiente quae. Quod iusto labore sed qui pariatur commodi
-            tempore tempora dolores corrupti eveniet. Voluptatum sit labore
-            nobis.
+            Before starting, you need to place all your ships on the board. To
+            do that, you can:
           </p>
+          <ul>
+            <li>
+              <b>Drag and drop</b> the ships on the board
+              <i>(single click to rotate them)</i>
+            </li>
+            <li>
+              Press
+              <b>random</b>
+              to place your ships randomly
+            </li>
+          </ul>
+          <p>Once that is done, press <b>start</b> and try to defeat the AI!</p>
         </div>
       </div>
-    </div>
+    </section>
+    <footer><a href="http://github.com/MorePog">@MorePog - 2022</a></footer>
   </body>
 </html>
