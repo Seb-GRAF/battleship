@@ -58,7 +58,7 @@ function renderButtons(player) {
  `;
 
   document.querySelector(".main-reset").addEventListener("click", () => {
-    //prevents bug when reset during enemy's turn
+    //prevents bug when clicking reset during enemy's turn
     if (!player.turn.get()) return;
 
     //resets boards and sets blur
@@ -140,7 +140,7 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
     ? renderWin(p1)
-    : aiPlay(p1, p2);
+    : aiPlay(false, p1, p2);
 }
 // renders attack for p2 (AI)
 async function renderAttackP2(p1, p2, pos1, pos2) {
@@ -148,15 +148,19 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
   let e = document.getElementById(`p2-row${pos1}-cell${pos2}`);
   let attack = p2.attack(p1, pos1, pos2);
 
-  if (!attack) aiPlay(p1, p2);
+  if (!attack) {
+    let repeat = true;
+    aiPlay(repeat, p1, p2);
+  }
   if (attack === "miss") {
-    if (surroundingPos.length == 0 && getWasHit[3] == false) {
-      setWasHit(false);
-    }
+    // if (getWasHit[2] == false)
+    console.log("miss");
+    setWasHit(false);
     e.classList.add("miss");
   }
   if (attack === "hit") {
-    setWasHit(true, pos1, pos2, true);
+    console.log("hit");
+    setWasHit(true, true, pos1, pos2);
     e.classList.add("hit");
     p1.board.board[pos1][pos2].ship.domTargets.push(e);
     // if ship is sunk, add "sunk" class
@@ -168,7 +172,7 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
       if (p1.board.areAllSunk(p1.board.board) === true) return renderWin(p2);
     }
     await delay(1000);
-    return aiPlay(p1, p2, isSunk);
+    return aiPlay(false, p1, p2, isSunk);
   }
 
   await delay(400);
@@ -196,7 +200,61 @@ function renderWin(player) {
   });
 }
 // renders how to play screen
-function renderHowToPlay() {}
+async function renderHowToPlay() {
+  const home = document.querySelector(".content");
+  const howToPlay = document.querySelector(".how-to-play");
+  home.classList.toggle("active");
+  await delay(140);
+  home.style.display = "none";
+  howToPlay.style.display = "flex";
+  await delay(140);
+  howToPlay.classList.toggle("active");
+
+  window.location.href = "#how-to-play";
+}
+// renders home screen
+async function renderHome() {
+  const home = document.querySelector(".content");
+  const howToPlay = document.querySelector(".how-to-play");
+  howToPlay.classList.toggle("active");
+  await delay(140);
+
+  howToPlay.style.display = "none";
+  home.style.display = "flex";
+  await delay(140);
+
+  home.classList.toggle("active");
+
+  window.location.href = "#home";
+}
+// renders about screen
+function renderAbout() {
+  const home = document.querySelector(".content");
+  const howToPlay = document.querySelector(".how-to-play");
+  home.style.display = "flex";
+  howToPlay.style.display = "none";
+  window.location.href = "#home";
+}
+// event listeners for header btn
+function initHeaderBtn() {
+  const homeBtn = document.querySelector(".home-btn");
+  const howToPlayBtn = document.querySelector(".how-to-play-btn");
+  let homeActive = true;
+  let howToPlayActive = false;
+
+  howToPlayBtn.addEventListener("click", () => {
+    if (howToPlayActive) return;
+    howToPlayActive = true;
+    homeActive = false;
+    renderHowToPlay();
+  });
+  homeBtn.addEventListener("click", () => {
+    if (homeActive) return;
+    homeActive = true;
+    howToPlayActive = false;
+    renderHome();
+  });
+}
 // creates a delay to be used in an async function
 function delay(delayInMs) {
   return new Promise((resolve) => {
@@ -246,4 +304,5 @@ export {
   createDragAndDropFleet,
   renderButtons,
   renderAttackP2,
+  initHeaderBtn,
 };

@@ -5,11 +5,12 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   gap: 1rem;
+  overflow: hidden;
 }
 header {
   width: 100%;
@@ -17,49 +18,100 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
   z-index: 10;
+  background: linear-gradient(
+    0deg,
+    rgb(255, 255, 255) 0%,
+    rgba(0, 102, 255, 0.103) 100%
+  );
   h2 {
     margin: 0 1rem;
-    color: #ffffff;
+    color: #182636;
     cursor: pointer;
+    position: relative;
     z-index: 5;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 90%;
+      height: 3px;
+      bottom: 0px;
+      border-radius: 20px;
+      left: 1px;
+      background: #182636;
+      transform: scaleX(1);
+      transform-origin: bottom right;
+      transition: transform 300ms cubic-bezier(0.65, 0.01, 0.73, 0.33);
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 3px;
+      top: 10px;
+      border-radius: 20px;
+      left: 30px;
+      background: #182636;
+    }
+    &:hover:after {
+      transform: scaleX(0);
+      transform-origin: bottom right;
+    }
   }
   .menu {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     margin: 0 1rem;
     z-index: 5;
     span {
       color: 273547e7;
       cursor: pointer;
     }
-  }
-  .header-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-  }
-
-  .header-svg svg {
-    position: relative;
-    display: block;
-    width: calc(217% + 1.3px);
-    height: 235px;
-  }
-
-  .header-svg .shape-fill {
-    fill: #273547e7;
+    .header-btn {
+      color: #182636;
+      text-decoration: none;
+      padding: 0;
+      font-size: 1em;
+      background: none;
+      border: none;
+      transition: 200ms;
+      text-decoration: underline 0.11em #00000000;
+      display: inline-block;
+      position: relative;
+      &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -3px;
+        left: 0;
+        background-color: #0000008c;
+        transform-origin: bottom right;
+        transition: transform 200ms ease-out;
+      }
+      &:hover:after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+      &:hover {
+        color: #2e2e2e;
+      }
+    }
   }
 }
 .content {
+  transform: translateY(-100vw);
+  opacity: 0;
+  transition: 300ms ease-in-out;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 5rem;
+  margin-top: 6rem;
+  &.active {
+    transform: none;
+    opacity: 100%;
+  }
 }
 .container1,
 .container2 {
@@ -75,6 +127,10 @@ header {
   }
 }
 footer {
+  z-index: 0;
+  position: absolute;
+  bottom: 0;
+  height: 2rem;
   width: 100%;
   display: flex;
   justify-content: center;
