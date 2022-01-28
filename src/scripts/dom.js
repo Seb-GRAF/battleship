@@ -1,6 +1,6 @@
-import { initGame, p1 } from "./game";
+import { initGame, p1, p2 } from "./game";
 import { shipDrag } from "./drag-and-drop";
-import { aiPlay, setWasHit } from "./botAI";
+import { aiPlay, getWasHit, setWasHit, surroundingPos } from "./botAI";
 
 // let isStartAllowed = false;
 function renderBoards(p1, p2) {
@@ -50,6 +50,7 @@ function resetBoards() {
 function renderButtons(player) {
   const boardButtons = document.querySelector(".board-buttons");
   const board1 = document.getElementById("board1");
+  const board2 = document.getElementById("board2");
 
   boardButtons.innerHTML = `
     <button class="main-random">Random board</button>
@@ -126,10 +127,9 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
       );
     return;
   }
-  // await delay(200);
   p2.isTurn(p1); // sets turn to P2
 
-  await delay(1000);
+  await delay(700);
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
     ? renderWin(p1)
@@ -165,7 +165,6 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
     return aiPlay(false, p1, p2, isSunk);
   }
 
-  await delay(1000);
   p1.isTurn(p2); // gives turn to P1
 }
 // render win screen
@@ -173,17 +172,12 @@ function renderWin(player) {
   const winScreen = document.querySelector(".win-screen");
   const winText = document.querySelector(".win-text");
   const restartBtn = document.querySelector(".restart");
-  const board1 = document.getElementById("board1");
-  const board2 = document.getElementById("board2");
 
   winScreen.style.display = "flex";
   winText.textContent = player.name + " won the game!";
   restartBtn.addEventListener("click", () => {
     winScreen.style.display = "none";
     resetBoards();
-    board1.classList.remove("current-turn");
-    if (player.turn.get() && player.board.hasStarted.get())
-      board2.classList.add("current-turn");
   });
 }
 // renders how to play screen
