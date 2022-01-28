@@ -1,9 +1,8 @@
-[LIVE PAGE](morepog.github.io/battleship)
 ![image](https://user-images.githubusercontent.com/95282692/151598419-570f739e-2e87-43d9-80bd-5863d00eef57.png)
 
 # Battleship
 A single player battleship game where the player tries to sink all of the oponent's ships
-
+[LIVE](morepog.github.io/battleship)
 # Project
 This project was made to train test-driven development
 It was built using:
