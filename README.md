@@ -21,10 +21,3 @@ A dot means a miss
 A blue "X" wit a light background means a hit
 A white "X" with a dark background means the ship has sunk
 You win when you sink all the computer's ships
-
-# Built using
-JavaScript
-SASS
-Webpack
-Jest
-
