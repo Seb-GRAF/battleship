@@ -21,11 +21,9 @@
   bottom: -5px;
   left: -5px;
   right: -5px;
-  backdrop-filter: blur(0.035rem);
-  -webkit-backdrop-filter: blur(0.035rem);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
 }
-#board1.notTurn::before,
-#board2.notTurn::before,
 #board1.notStarted::before,
 #board2.notStarted::before {
   display: block;

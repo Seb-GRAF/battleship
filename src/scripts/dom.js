@@ -1,6 +1,6 @@
-import { initGame, p1, p2 } from "./game";
+import { initGame, p1 } from "./game";
 import { shipDrag } from "./drag-and-drop";
-import { aiPlay, getWasHit, setWasHit, surroundingPos } from "./botAI";
+import { aiPlay, setWasHit } from "./botAI";
 
 // let isStartAllowed = false;
 function renderBoards(p1, p2) {
@@ -50,7 +50,6 @@ function resetBoards() {
 function renderButtons(player) {
   const boardButtons = document.querySelector(".board-buttons");
   const board1 = document.getElementById("board1");
-  const board2 = document.getElementById("board2");
 
   boardButtons.innerHTML = `
     <button class="main-random">Random board</button>
@@ -64,8 +63,6 @@ function renderButtons(player) {
     //resets boards and sets blur
     resetBoards(player);
     board1.classList.add("notStarted");
-    board1.classList.remove("notTurn");
-    board2.classList.remove("notTurn");
   });
 
   // creates a random fleet for p1
@@ -84,8 +81,6 @@ function renderButtons(player) {
 
     //blur toggles before and after start
     board1.classList.remove("notStarted");
-    board2.classList.add("notTurn");
-    // board2.classList.toggle("current-turn");
     player.board.hasStarted.set(true);
 
     //removes start button when game starts
@@ -134,7 +129,6 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
   // await delay(200);
   p2.isTurn(p1); // sets turn to P2
 
-  renderTurnBlur();
   await delay(1000);
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
@@ -172,7 +166,6 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
   }
 
   await delay(1000);
-  renderTurnBlur();
   p1.isTurn(p2); // gives turn to P1
 }
 // render win screen
@@ -257,11 +250,6 @@ function delay(delayInMs) {
     }, delayInMs);
   });
 }
-// creates the blur for each turn
-function renderTurnBlur() {
-  document.getElementById("board2").classList.toggle("notTurn");
-  document.getElementById("board1").classList.toggle("notTurn");
-}
 // renders the draggable ships under the board
 function createDragAndDropFleet(player) {
   renderShipSelection(1, 1);
@@ -304,5 +292,4 @@ export {
   renderButtons,
   renderAttackP2,
   initHeaderBtn,
-  renderTurnBlur,
 };

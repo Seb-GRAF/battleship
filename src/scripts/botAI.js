@@ -19,9 +19,6 @@ function setWasHit(value, stat, pos1, pos2) {
     pos1 !== undefined
   )
     secondHitPos = [pos1, pos2];
-  console.log({ firstHitPos, secondHitPos, lastHitPos, wasHit, status });
-  console.log("===================");
-  console.log("");
 }
 function getWasHit() {
   return [wasHit, lastHitPos, status];
@@ -49,7 +46,6 @@ function aiPlay(repeat, p1, p2, isSunk) {
   }
   if (!status && !wasHit) {
     pos = p1.randomPos();
-    console.log("attacking random");
 
     return renderAttackP2(p1, p2, pos[0], pos[1]);
   } else if (secondHitPos.length !== 0 && wasHit && !repeat) {
@@ -58,7 +54,6 @@ function aiPlay(repeat, p1, p2, isSunk) {
     if (firstHitPos[0] == secondHitPos[0] + 1) newPos = attackTowards("up");
     if (firstHitPos[1] == secondHitPos[1] - 1) newPos = attackTowards("right");
     if (firstHitPos[1] == secondHitPos[1] + 1) newPos = attackTowards("left");
-    console.log("2 in a row, now attacking direction: " + newPos);
     if (newPos[0] >= 0 && newPos[0] <= 9 && newPos[1] >= 0 && newPos[1] <= 9)
       return renderAttackP2(p1, p2, newPos[0], newPos[1]);
   } else if (secondHitPos.length !== 0 && status && !wasHit) {
@@ -70,16 +65,13 @@ function aiPlay(repeat, p1, p2, isSunk) {
     if (attackDirection === "right") newPos = attackTowards("left");
     if (attackDirection === "left") newPos = attackTowards("right");
     if (newPos[0] >= 0 && newPos[0] <= 9 && newPos[1] >= 0 && newPos[1] <= 9)
-      console.log("new pos = first hit pos, attacking opposite now");
-    return renderAttackP2(p1, p2, newPos[0], newPos[1]);
+      return renderAttackP2(p1, p2, newPos[0], newPos[1]);
   } else if (status) {
     if (surroundingPos.length == 0)
       registerSurroundingPos(lastHitPos[0], lastHitPos[1]);
     if (surroundingPos.length == 0 && status == true)
       registerSurroundingPos(firstHitPos[0], firstHitPos[1]);
     let newPos = surroundingPos.pop();
-    console.log(surroundingPos);
-    console.log("attacking surrounding");
     return renderAttackP2(p1, p2, newPos[0], newPos[1]);
   }
 }
