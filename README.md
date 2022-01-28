@@ -5,7 +5,7 @@ A single player battleship game where the player tries to sink all of the oponen
 
 [LIVE](morepog.github.io/battleship)
 # Project
-This project was made to train test-driven development
+This project was made using TDD principle. (test-driven development)
 
 It was built using:
 - JavaScript
@@ -16,12 +16,10 @@ It was built using:
 # How to play?
 Either drag and drop your ships on the board (single click to rotate them) or use the random placement button.
 
-Click the reset button to clear the board and restart the game
-
-After placing all 8 ships on the board, click the start button to play.
-
--Click on a tile to make fire a shot.
--A dot means a miss
--A blue "X" wit a light background means a hit
--A white "X" with a dark background means the ship has sunk
--You win when you sink all the computer's ships
+- Click the reset button to clear the board and restart the game
+- After placing all 8 ships on the board, click the start button to play.
+- Click on a tile to make fire a shot.
+- A dot means a miss
+- A blue "X" wit a light background means a hit
+- A white "X" with a dark background means the ship has sunk
+- You win when you sink all the computer's ships
