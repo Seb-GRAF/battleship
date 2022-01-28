@@ -33,6 +33,12 @@
     cursor: grabbing;
   }
 }
+@media only screen and (max-width: 750px) {
+  .ships {
+    display: none;
+  }
+}
+
 .rotated {
   transition: 0.2s ease-in-out;
   flex-direction: column;

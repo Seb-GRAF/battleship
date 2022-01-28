@@ -9,7 +9,7 @@
   background-color: #ffffff;
   align-items: center;
   z-index: 9;
-  padding-top: 3rem;
+  padding-bottom: 5rem;
   &.active {
     transform: none;
     opacity: 100%;
@@ -18,20 +18,21 @@
     display: flex;
     justify-content: space-evenly;
     gap: 1rem;
-    padding: 2rem;
+    padding: 1rem;
     max-width: 100%;
     flex-wrap: wrap;
     .rules,
     .controls {
       display: flex;
       flex-direction: column;
-      min-width: 20rem;
-      max-width: 30rem;
+      max-width: 25rem;
+      min-width: 10rem;
       background-color: rgb(235, 235, 235);
       padding: 2rem;
       border-radius: 2rem;
       box-shadow: rgba(0, 0, 0, 0.158) 0 5px 5px;
       h2 {
+        margin-top: 0;
         align-self: center;
       }
       p {
@@ -49,9 +50,13 @@
         color: white;
       }
     }
-    .controls {
-      min-width: 10rem;
-      max-width: 20rem;
-    }
+  }
+}
+@media only screen and (max-width: 750px) {
+  .how-to-play {
+    padding-bottom: 0;
+  }
+  .how-to-play-container1 {
+    padding: none;
   }
 }

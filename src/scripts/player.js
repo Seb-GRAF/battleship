@@ -1,4 +1,5 @@
 import { Gameboard } from "./gameboard";
+import { renderTurnBlur } from "./dom";
 
 const Player = (n) => {
   const name = n;

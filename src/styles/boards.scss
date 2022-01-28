@@ -9,8 +9,7 @@
 }
 #board1::before,
 #board2::before {
-  transition: 1000ms;
-  display: block;
+  display: none;
   content: "";
   font-size: 0.9rem;
   text-align: center;
@@ -22,12 +21,16 @@
   bottom: -5px;
   left: -5px;
   right: -5px;
-  backdrop-filter: blur(1px);
-  z-index: 7;
+  backdrop-filter: blur(0.035rem);
+  -webkit-backdrop-filter: blur(0.035rem);
 }
-#board1.current-turn::before,
-#board2.current-turn::before {
-  display: none;
+#board1.notTurn::before,
+#board2.notTurn::before,
+#board1.notStarted::before,
+#board2.notStarted::before {
+  display: block;
+  opacity: 100;
+  z-index: 5;
 }
 .row-p1,
 .row-p2 {

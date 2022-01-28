@@ -63,9 +63,9 @@ function renderButtons(player) {
 
     //resets boards and sets blur
     resetBoards(player);
-    board1.classList.remove("current-turn");
-    if (player.turn.get() && player.board.hasStarted.get())
-      board2.classList.add("current-turn");
+    board1.classList.add("notStarted");
+    board1.classList.remove("notTurn");
+    board2.classList.remove("notTurn");
   });
 
   // creates a random fleet for p1
@@ -83,7 +83,8 @@ function renderButtons(player) {
     if (player.board.isStartAllowed.get() === false) return;
 
     //blur toggles before and after start
-    board1.classList.toggle("current-turn");
+    board1.classList.remove("notStarted");
+    board2.classList.add("notTurn");
     // board2.classList.toggle("current-turn");
     player.board.hasStarted.set(true);
 
@@ -115,6 +116,7 @@ function renderPlayerFleet(player) {
 }
 // renders attacks for p1
 async function renderAttackP1(e, pos1, pos2, p1, p2) {
+  document.getElementById("board1").classList.toggle("current-turn");
   let attack = p1.attack(p2, pos1, pos2);
   if (!attack) return; //attacking the same tile doesn't pass turn
   if (attack === "miss") e.target.classList.add("miss");
@@ -129,14 +131,11 @@ async function renderAttackP1(e, pos1, pos2, p1, p2) {
       );
     return;
   }
-  await delay(300);
+  // await delay(200);
   p2.isTurn(p1); // sets turn to P2
 
-  //toggles blur for turns
-  // document.getElementById("board2").classList.toggle("current-turn");
-  // document.getElementById("board1").classList.toggle("current-turn");
-  // await delay(700);
-
+  renderTurnBlur();
+  await delay(1000);
   // next player attack or stops game if areAllSunk()
   return p2.board.areAllSunk(p2.board.board) === true
     ? renderWin(p1)
@@ -153,13 +152,10 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
     aiPlay(repeat, p1, p2);
   }
   if (attack === "miss") {
-    // if (getWasHit[2] == false)
-    console.log("miss");
     setWasHit(false);
     e.classList.add("miss");
   }
   if (attack === "hit") {
-    console.log("hit");
     setWasHit(true, true, pos1, pos2);
     e.classList.add("hit");
     p1.board.board[pos1][pos2].ship.domTargets.push(e);
@@ -175,10 +171,8 @@ async function renderAttackP2(p1, p2, pos1, pos2) {
     return aiPlay(false, p1, p2, isSunk);
   }
 
-  await delay(400);
-  // document.getElementById("board2").classList.toggle("current-turn");
-  // document.getElementById("board1").classList.toggle("current-turn");
-
+  await delay(1000);
+  renderTurnBlur();
   p1.isTurn(p2); // gives turn to P1
 }
 // render win screen
@@ -263,6 +257,11 @@ function delay(delayInMs) {
     }, delayInMs);
   });
 }
+// creates the blur for each turn
+function renderTurnBlur() {
+  document.getElementById("board2").classList.toggle("notTurn");
+  document.getElementById("board1").classList.toggle("notTurn");
+}
 // renders the draggable ships under the board
 function createDragAndDropFleet(player) {
   renderShipSelection(1, 1);
@@ -305,4 +304,5 @@ export {
   renderButtons,
   renderAttackP2,
   initHeaderBtn,
+  renderTurnBlur,
 };
